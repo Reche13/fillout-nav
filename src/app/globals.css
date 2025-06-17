@@ -8,6 +8,9 @@
   --color-pri: #1a1a1a;
   --color-sec: #677289;
   --color-destruct: #ef494f;
+
+  --shadow-fillout: 0px 1px 3px 0px rgba(0, 0, 0, 0.04),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.02);
 }
 
 body {
