@@ -12,7 +12,9 @@ import {
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
+import { Divider } from "./divider";
+import { SortableTab } from "./SortableTab";
 
 export const Navigation = () => {
   const [items, setItems] = useState<{ id: UniqueIdentifier; label: string }[]>(
@@ -44,7 +46,16 @@ export const Navigation = () => {
         items={items.map((i) => i.id)}
         strategy={horizontalListSortingStrategy}
       >
-        <div className="flex items-center"></div>
+        <div className="w-full border max-w-2xl p-4">
+          <div className="flex items-center">
+            {items.map((item, index) => (
+              <Fragment key={item.id}>
+                <SortableTab item={item} />
+                {index < items.length - 1 && <Divider index={index} />}
+              </Fragment>
+            ))}
+          </div>
+        </div>
       </SortableContext>
     </DndContext>
   );
