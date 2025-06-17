@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@theme inline {
+  --color-space: #f9fafb;
+  --color-background-pri: #ffffff;
+  --color-background-sec: #9da4b226;
+  --color-background-ter: #9da4b259;
+  --color-pri: #1a1a1a;
+  --color-sec: #677289;
+  --color-destruct: #ef494f;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
