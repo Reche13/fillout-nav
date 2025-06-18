@@ -1,29 +1,32 @@
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
 export const Divider = ({ index }: { index: number }) => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hovered, setHovered] = useState(false);
 
-  const insertItemAt = (index: number) => {
-    console.log(index);
-  };
   return (
-    <motion.div
-      onMouseEnter={() => setHoveredIndex(index)}
-      onMouseLeave={() => setHoveredIndex(null)}
-      className="relative w-8 h-5 border border-gray-400"
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="border h-5"
     >
-      {hoveredIndex === index && (
-        <motion.button
-          onClick={() => insertItemAt(index + 1)}
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-white rounded-full w-6 h-6 text-sm"
-        >
-          +
-        </motion.button>
-      )}
-    </motion.div>
+      <motion.div
+        initial={{ padding: "0px 10px" }}
+        animate={{ padding: hovered ? "0px 20px" : "0px 10px" }}
+      >
+        <AnimatePresence>
+          {hovered && (
+            <motion.button
+              transition={{ duration: 0.3 }}
+              initial={{ scale: 0 }}
+              animate={{ scale: hovered ? 1 : 0 }}
+              className="rounded-full border p-1 size-4 flex items-center justify-center"
+            >
+              +
+            </motion.button>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
   );
 };
