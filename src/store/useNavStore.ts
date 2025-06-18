@@ -1,8 +1,13 @@
 import { create } from "zustand";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
+import { CheckCircle2, FileText, Info, LucideIcon } from "lucide-react";
 
-type NavItem = { id: UniqueIdentifier; label: string };
+type NavItem = {
+  id: UniqueIdentifier;
+  label: string;
+  icon: LucideIcon;
+};
 
 interface NavState {
   items: NavItem[];
@@ -16,10 +21,10 @@ interface NavState {
 
 export const useNavStore = create<NavState>((set) => ({
   items: [
-    { id: "1", label: "Info" },
-    { id: "2", label: "Details" },
-    { id: "3", label: "Other" },
-    { id: "4", label: "Ending" },
+    { id: "1", label: "Info", icon: Info },
+    { id: "2", label: "Details", icon: FileText },
+    { id: "3", label: "Other", icon: FileText },
+    { id: "4", label: "Ending", icon: CheckCircle2 },
   ],
   activeId: "1",
   setActiveId: (id) => set({ activeId: id }),
@@ -37,7 +42,8 @@ export const useNavStore = create<NavState>((set) => ({
       const insertAt = Math.min(index + 1, newItems.length);
       newItems.splice(insertAt, 0, {
         id: crypto.randomUUID(),
-        label: "Other",
+        label: "Page",
+        icon: FileText,
       });
       return { items: newItems };
     }),

@@ -2,17 +2,21 @@ import { cn } from "@/lib/utils";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { EllipsisVertical, FileText } from "lucide-react";
+import { EllipsisVertical, LucideIcon } from "lucide-react";
 import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import { ContextMenu } from "./ContextMenu";
 
 export const SortableTab = ({
-  item,
+  item: { id, label, icon: Icon },
   activeId,
   setActiveId,
 }: {
-  item: { id: UniqueIdentifier; label: string };
+  item: {
+    id: UniqueIdentifier;
+    label: string;
+    icon: LucideIcon;
+  };
   activeId: UniqueIdentifier;
   setActiveId: (id: UniqueIdentifier) => void;
 }) => {
@@ -23,7 +27,7 @@ export const SortableTab = ({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: item.id });
+  } = useSortable({ id });
 
   const style = {
     transform: transform ? CSS.Translate.toString(transform) : undefined,
@@ -31,7 +35,7 @@ export const SortableTab = ({
     zIndex: isDragging ? "50" : "10",
   };
 
-  const isActive = item.id === activeId;
+  const isActive = id === activeId;
 
   const [contextOpen, setContextOpen] = useState(false);
   const tabRef = useRef<HTMLDivElement>(null);
@@ -43,7 +47,7 @@ export const SortableTab = ({
   };
 
   return (
-    <div className="relative" ref={tabRef}>
+    <div className={cn("relative", isDragging ? "z-50" : "z-10")} ref={tabRef}>
       <ContextMenu
         open={contextOpen}
         setOpen={setContextOpen}
@@ -55,7 +59,7 @@ export const SortableTab = ({
         style={style}
         {...attributes}
         {...listeners}
-        onClick={() => setActiveId(item.id)}
+        onClick={() => setActiveId(id)}
         onContextMenu={handleContextMenu}
         className={cn(
           "group cursor-pointer px-2.5 py-1.5 flex items-center gap-2 rounded-lg border-[0.5px] border-border shadow-fillout outline-none focus-visible:border-[#2F72E2] focus-visible:ring-[1.5px] focus-visible:ring-[#2F72E240] focus-visible:bg-background-pri backdrop-blur-3xl",
@@ -69,7 +73,7 @@ export const SortableTab = ({
           transition: { duration: 0.3 },
         }}
       >
-        <FileText
+        <Icon
           className={cn(
             "size-5",
             isActive ? "text-primary" : "text-[#8C93A1]",
@@ -77,6 +81,7 @@ export const SortableTab = ({
           )}
           strokeWidth={1.5}
         />
+
         <span
           className={cn(
             "text-sm leading-[20px] font-medium whitespace-nowrap select-none",
@@ -84,7 +89,7 @@ export const SortableTab = ({
             "group-focus-visible:text-dark-pri"
           )}
         >
-          {item.label}
+          {label}
         </span>
 
         <motion.button
