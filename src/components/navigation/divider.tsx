@@ -16,6 +16,7 @@ export const Divider = ({ index }: { index: number }) => {
       <motion.div
         initial={{ padding: "0px 10px" }}
         animate={{ padding: hovered ? "0px 20px" : "0px 10px" }}
+        transition={{ duration: 0.3 }}
       >
         <AnimatePresence>
           {hovered && (

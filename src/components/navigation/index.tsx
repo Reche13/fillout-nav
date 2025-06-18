@@ -19,6 +19,7 @@ import { Divider } from "./divider";
 import { SortableTab } from "./SortableTab";
 import { useNavStore } from "@/store/useNavStore";
 import { motion } from "motion/react";
+import { AddPage } from "./AddPage";
 
 export const Navigation = () => {
   const { items, activeId, setActiveId, moveItem, isDragging, setIsDragging } =
@@ -58,7 +59,7 @@ export const Navigation = () => {
         items={items.map((i) => i.id)}
         strategy={horizontalListSortingStrategy}
       >
-        <div className="w-full border max-w-2xl p-4 overflow-x-auto">
+        <div className="w-full max-w-4xl p-4 overflow-x-auto">
           <div className="flex items-center relative w-fit">
             <motion.div
               layout
@@ -69,9 +70,9 @@ export const Navigation = () => {
               <motion.div
                 {...(!isDragging && { layout: true })}
                 key={item.id}
-                initial={{ opacity: 1, scale: 0.8 }}
+                initial={{ opacity: 1, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 1, scale: 0.8 }}
+                exit={{ opacity: 1, scale: 0 }}
                 transition={{ duration: 0.3 }}
                 className="flex items-center"
               >
@@ -80,9 +81,10 @@ export const Navigation = () => {
                   activeId={activeId}
                   setActiveId={setActiveId}
                 />
-                {index < items.length - 1 && <Divider index={index} />}
+                <Divider index={index} />
               </motion.div>
             ))}
+            <AddPage />
           </div>
         </div>
       </SortableContext>
