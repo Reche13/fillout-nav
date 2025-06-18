@@ -40,7 +40,7 @@ export const SortableTab = ({
       <motion.div
         transition={{ duration: 0.3 }}
         className={cn(
-          "group cursor-pointer px-2.5 py-1 flex items-center gap-2 rounded-lg border-[0.5px] border-border shadow-fillout outline-none focus-visible:border-[#2F72E2] focus-visible:ring-[1.5px] focus-visible:ring-[#2F72E240] focus-visible:bg-background-pri hover:bg-background-ter",
+          "group cursor-pointer px-2.5 py-1.5 flex items-center gap-2 rounded-lg border-[0.5px] border-border shadow-fillout outline-none focus-visible:border-[#2F72E2] focus-visible:ring-[1.5px] focus-visible:ring-[#2F72E240] focus-visible:bg-background-pri hover:bg-background-ter",
           item.id === activeId ? "bg-background-pri" : "bg-background-sec"
         )}
       >
