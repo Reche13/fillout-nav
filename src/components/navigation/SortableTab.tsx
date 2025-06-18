@@ -3,7 +3,6 @@ import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { EllipsisVertical, FileText } from "lucide-react";
-import { motion } from "motion/react";
 
 export const SortableTab = ({
   item,

@@ -6,40 +6,30 @@ import {
   DragEndEvent,
   MouseSensor,
   TouchSensor,
-  UniqueIdentifier,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
 import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import {
-  arrayMove,
   horizontalListSortingStrategy,
   SortableContext,
 } from "@dnd-kit/sortable";
-import React, { Fragment, useState } from "react";
+import React from "react";
 import { Divider } from "./divider";
 import { SortableTab } from "./SortableTab";
+import { useNavStore } from "@/store/useNavStore";
+import { motion } from "motion/react";
 
 export const Navigation = () => {
-  const [items, setItems] = useState<{ id: UniqueIdentifier; label: string }[]>(
-    () => [
-      { id: "1", label: "Item 1" },
-      { id: "2", label: "Item 2" },
-      { id: "3", label: "Item 3" },
-      { id: "4", label: "Item 4" },
-      { id: "5", label: "Item 5" },
-    ]
-  );
-
-  const [activeId, setActiveId] = useState<UniqueIdentifier>(items[0].id);
+  const { items, activeId, setActiveId, moveItem, isDragging, setIsDragging } =
+    useNavStore();
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
-      const oldIndex = items.findIndex((i) => i.id === active.id);
-      const newIndex = items.findIndex((i) => i.id === over.id);
-      setItems(arrayMove(items, oldIndex, newIndex));
+      moveItem(active.id, over.id);
     }
+    setIsDragging(false);
   };
 
   const sensors = useSensors(
@@ -60,6 +50,7 @@ export const Navigation = () => {
     <DndContext
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      onDragStart={() => setIsDragging(true)}
       modifiers={[restrictToHorizontalAxis]}
       sensors={sensors}
     >
@@ -67,18 +58,30 @@ export const Navigation = () => {
         items={items.map((i) => i.id)}
         strategy={horizontalListSortingStrategy}
       >
-        <div className="w-full border max-w-2xl p-4">
+        <div className="w-full border max-w-2xl p-4 overflow-x-auto">
           <div className="flex items-center relative w-fit">
-            <div className="border-border border-dashed border h-px absolute inset-x-4 z-0" />
+            <motion.div
+              layout
+              transition={{ duration: 0.3 }}
+              className="border-border border-dashed border h-px absolute inset-x-4 z-0"
+            />
             {items.map((item, index) => (
-              <Fragment key={item.id}>
+              <motion.div
+                {...(!isDragging && { layout: true })}
+                key={item.id}
+                initial={{ opacity: 1, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 1, scale: 0.8 }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center"
+              >
                 <SortableTab
                   item={item}
                   activeId={activeId}
                   setActiveId={setActiveId}
                 />
                 {index < items.length - 1 && <Divider index={index} />}
-              </Fragment>
+              </motion.div>
             ))}
           </div>
         </div>

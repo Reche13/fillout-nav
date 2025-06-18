@@ -1,8 +1,10 @@
+import { useNavStore } from "@/store/useNavStore";
 import { Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
 export const Divider = ({ index }: { index: number }) => {
+  const { insertItem } = useNavStore();
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -18,6 +20,7 @@ export const Divider = ({ index }: { index: number }) => {
         <AnimatePresence>
           {hovered && (
             <motion.button
+              onClick={() => insertItem(index)}
               transition={{ duration: 0.3 }}
               initial={{ scale: 0 }}
               animate={{ scale: hovered ? 1 : 0 }}
