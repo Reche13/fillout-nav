@@ -69,7 +69,7 @@ export const Navigation = () => {
             {items.map((item, index) => (
               <motion.div
                 {...(!isDragging && { layout: true })}
-                key={item.id}
+                key={`sortable-${item.id}`}
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.8 }}
