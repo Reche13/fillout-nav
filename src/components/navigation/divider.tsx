@@ -9,7 +9,7 @@ export const Divider = ({ index }: { index: number }) => {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="flex items-center h-5"
+      className="flex items-center h-5 relative z-20"
     >
       <motion.div
         initial={{ padding: "0px 10px" }}
@@ -21,7 +21,7 @@ export const Divider = ({ index }: { index: number }) => {
               transition={{ duration: 0.3 }}
               initial={{ scale: 0 }}
               animate={{ scale: hovered ? 1 : 0 }}
-              className="cursor-pointer bg-background-pri shadow-fillout rounded-full border-border p-1 border flex items-center justify-center"
+              className="cursor-pointer bg-background-pri shadow-fillout rounded-full border-border p-1 border flex items-center justify-center z-20 relative"
             >
               <Plus className="text-dark-pri size-2" />
             </motion.button>

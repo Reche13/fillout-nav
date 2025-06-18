@@ -68,7 +68,8 @@ export const Navigation = () => {
         strategy={horizontalListSortingStrategy}
       >
         <div className="w-full border max-w-2xl p-4">
-          <div className="flex items-center">
+          <div className="flex items-center relative w-fit">
+            <div className="border-border border-dashed border h-px absolute inset-x-4 z-0" />
             {items.map((item, index) => (
               <Fragment key={item.id}>
                 <SortableTab
