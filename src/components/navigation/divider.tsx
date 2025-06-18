@@ -11,7 +11,7 @@ export const Divider = ({ index }: { index: number }) => {
     <motion.div
       onMouseEnter={() => setHoveredIndex(index)}
       onMouseLeave={() => setHoveredIndex(null)}
-      className="relative w-8 h-1 bg-gray-400 mx-2"
+      className="relative w-8 h-5 border border-gray-400"
     >
       {hoveredIndex === index && (
         <motion.button

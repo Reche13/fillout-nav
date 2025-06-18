@@ -1,12 +1,18 @@
+import { cn } from "@/lib/utils";
 import { UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import React from "react";
+import { EllipsisVertical, FileText } from "lucide-react";
+import { motion } from "motion/react";
 
 export const SortableTab = ({
   item,
+  activeId,
+  setActiveId,
 }: {
   item: { id: UniqueIdentifier; label: string };
+  activeId: UniqueIdentifier;
+  setActiveId: (id: UniqueIdentifier) => void;
 }) => {
   const {
     attributes,
@@ -18,7 +24,7 @@ export const SortableTab = ({
   } = useSortable({ id: item.id });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
+    transform: transform ? CSS.Translate.toString(transform) : undefined,
     transition,
     zIndex: isDragging ? "50" : "10",
   };
@@ -29,9 +35,42 @@ export const SortableTab = ({
       style={style}
       {...attributes}
       {...listeners}
-      className="px-4 py-2 border rounded bg-white shadow cursor-grab"
+      onClick={() => setActiveId(item.id)}
     >
-      {item.label}
+      <motion.div
+        transition={{ duration: 0.3 }}
+        className={cn(
+          "group cursor-pointer px-2.5 py-1 flex items-center gap-2 rounded-lg border-[0.5px] border-border shadow-fillout outline-none focus-visible:border-[#2F72E2] focus-visible:ring-[1.5px] focus-visible:ring-[#2F72E240] focus-visible:bg-background-pri hover:bg-background-ter",
+          item.id === activeId ? "bg-background-pri" : "bg-background-sec"
+        )}
+      >
+        <FileText
+          className={cn(
+            "size-5",
+            item.id === activeId ? "text-primary" : "text-[#8C93A1]",
+            "group-focus-visible:text-primary"
+          )}
+          strokeWidth={1.5}
+        />
+        <span
+          className={cn(
+            "text-sm leading-[20px] font-medium whitespace-nowrap select-none",
+            item.id === activeId ? "text-dark-pri" : "text-dark-sec",
+            "group-focus-visible:text-dark-pri"
+          )}
+        >
+          {item.label}
+        </span>
+
+        {item.id === activeId && (
+          <button>
+            <EllipsisVertical
+              strokeWidth={1.5}
+              className="size-4 text-[#9DA4B2]"
+            />
+          </button>
+        )}
+      </motion.div>
     </div>
   );
 };

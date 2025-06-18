@@ -4,7 +4,11 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
+  MouseSensor,
+  TouchSensor,
   UniqueIdentifier,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import {
@@ -27,6 +31,8 @@ export const Navigation = () => {
     ]
   );
 
+  const [activeId, setActiveId] = useState<UniqueIdentifier>(items[0].id);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
@@ -36,11 +42,26 @@ export const Navigation = () => {
     }
   };
 
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 0,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 0,
+      },
+    })
+  );
+
   return (
     <DndContext
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
       modifiers={[restrictToHorizontalAxis]}
+      sensors={sensors}
     >
       <SortableContext
         items={items.map((i) => i.id)}
@@ -50,7 +71,11 @@ export const Navigation = () => {
           <div className="flex items-center">
             {items.map((item, index) => (
               <Fragment key={item.id}>
-                <SortableTab item={item} />
+                <SortableTab
+                  item={item}
+                  activeId={activeId}
+                  setActiveId={setActiveId}
+                />
                 {index < items.length - 1 && <Divider index={index} />}
               </Fragment>
             ))}
