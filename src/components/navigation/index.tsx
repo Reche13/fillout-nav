@@ -59,7 +59,7 @@ export const Navigation = () => {
         items={items.map((i) => i.id)}
         strategy={horizontalListSortingStrategy}
       >
-        <div className="w-full max-w-4xl p-4 overflow-x-auto">
+        <div className="w-full max-w-4xl p-4 overflow-x-auto thin-scrollbar">
           <div className="flex items-center relative w-fit">
             <motion.div
               layout
